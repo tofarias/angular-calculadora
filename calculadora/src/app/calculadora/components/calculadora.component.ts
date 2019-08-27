@@ -9,6 +9,7 @@ import { isNull } from 'util';
   templateUrl: './calculadora.component.html',
   styleUrls: ['./calculadora.component.css']
 })
+
 export class CalculadoraComponent implements OnInit {
 
 private numero1: string
@@ -30,11 +31,15 @@ private operacao: string
     this.operacao = null
   }
 
+  /**
+   *
+   * @param numero
+   */
   adicionarNumero(numero: string) : void
   {
-    if( this.operacao === null )
+    if( this.operacao === null ){
       this.numero1  = this.concatenarNumero(this.numero1, numero)
-    {
+    }else{
       this.numero2  = this.concatenarNumero(this.numero2, numero)
     }
   }
@@ -46,7 +51,7 @@ private operacao: string
    */
   concatenarNumero(numAtual: string, numConcat: string): string
   {
-    if( numAtual ==='0' ){
+    if( numAtual === '0' || numAtual === null ){
       numAtual = ''
     }
 
@@ -81,7 +86,23 @@ private operacao: string
     }
   }
 
-  get Display(): string{
+  /**
+   * Efetua o cálculo de uma operação.
+   *
+   * @return void
+   */
+  calcular(): void {
+  	if (this.numero2 === null) {
+  		return;
+  	}
+
+  	this.resultado = this.calduladoraService.calcular(
+  		parseFloat(this.numero1),
+  		parseFloat(this.numero2),
+  		this.operacao);
+  }
+
+  get display(): string{
     if( this.resultado !== null ){
       return this.resultado.toString()
     }
